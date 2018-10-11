@@ -40,27 +40,27 @@ export class FilterClause {
     }
 
     // Logical operators
-    eq(value: string|number|boolean): FilterClause {
+    eq(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'eq', this);
     }
 
-    ne(value: string|number|boolean): FilterClause {
+    ne(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'ne', this);
     }
 
-    gt(value: string|number|boolean): FilterClause {
+    gt(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'gt', this);
     }
 
-    ge(value: string|number|boolean): FilterClause {
+    ge(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'ge', this);
     }
 
-    lt(value: string|number|boolean): FilterClause {
+    lt(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'lt', this);
     }
 
-    le(value: string|number|boolean): FilterClause {
+    le(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'le', this);
     }
 

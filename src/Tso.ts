@@ -11,6 +11,7 @@ import {InlineCountSettings} from './Settings/InlineCountSettings';
 import {FilterSettings} from './Settings/FilterSettings';
 import {IFormatOptions} from './Options/IFormatOptions';
 import {IInlineCountOptions} from './Options/IInlineCountOptions';
+import { CountSettings } from './Settings/CountSettings';
 
 export class Tso {
 
@@ -23,10 +24,11 @@ export class Tso {
     SelectSettings: SelectSettings;
     SkipSettings: SkipSettings;
     TopSettings: TopSettings;
+    CountSettings: CountSettings;
     format: IFormatOptions;
     formatDefault: IFormatOptions;
     inlineCount: IInlineCountOptions;
-    inlineCountDefault: IInlineCountOptions;
+    inlineCountDefault: IInlineCountOptions;    
 
     currentHashRoute: string | null = null;
 
@@ -78,6 +80,7 @@ export class Tso {
         this.SelectSettings = new SelectSettings();
         this.SkipSettings = new SkipSettings();
         this.TopSettings = new TopSettings();
+        this.CountSettings = new CountSettings();
 
         let contextThis = this;
 
@@ -470,9 +473,18 @@ export class Tso {
         this.FormatSettings.reset();
     }
 
+    // count
+    resetCount(): Tso {
+        this.CountSettings.reset();
+        return this;
+    }
+
+    count(): Tso {
+        this.CountSettings.set();
+        return this;
+    }
+
     // Inline count
-
-
     resetInlineCount(): Tso {
         this.InlineCountSettings.reset();
         return this;
@@ -584,6 +596,10 @@ export class Tso {
             components.push(this.InlineCountSettings.toString());
         }
 
+        if (this.CountSettings.isSet()) {
+            components.push(this.CountSettings.toString());
+        }
+
         return components.length > 0 ? url + '?' + components.join('&') : url;
     }
 
@@ -600,6 +616,7 @@ export class Tso {
         jsonObj.ExpandSettings = null;
         jsonObj.FormatSettings = null;
         jsonObj.InlineCountSettings = null;
+        jsonObj.CountSettings = null;
         jsonObj.FilterSettings = null;
 
         jsonObj.defaults = (<any>this).defaults;
@@ -630,6 +647,10 @@ export class Tso {
 
         if (this.InlineCountSettings.isSet()) {
             jsonObj.InlineCountSettings = this.InlineCountSettings;
+        }
+
+        if (this.CountSettings.isSet()) {
+            jsonObj.CountSettings = this.CountSettings;
         }
 
         if (this.FilterSettings.isSet()) {

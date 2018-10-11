@@ -1,5 +1,9 @@
 export class Helpers {
     public static formatValue (value: any): any {
+        if (value instanceof Date) {
+            return value.toISOString();
+        }
+
         if (value.length > 8 && value.substring(0, 8) === 'datetime') {
             return value;
         }
