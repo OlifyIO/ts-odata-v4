@@ -2,31 +2,19 @@
 [![Build](https://travis-ci.org/TrekkingForCharity/ts-odata.svg?branch=master)](https://travis-ci.org/TrekkingForCharity/ts-odata)
 [![npm version](https://badge.fury.io/js/ts-odata.svg)](//npmjs.com/package/ts-odata)
 
-# ts-odata
+# ts-odata-v4
 
 # Changelog
 All notable changes to this project will be documented in this file.
+ts-odata-v4 is forked [ts-odata project](https://www.npmjs.com/package/ts-odata).
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-Please note the 0.3.0 has not been published to NPM
-
-## [0.3.0] - 2018-08-28
+## [0.1.0] - 2018-10-16
 ### Added
-- Support for OData 'Contains' keyword
-- Added unit tests for 'Contains'
-
-### Changed
-- Changed headers in README.md because it was invalid markdown
-- Added this Changelog
-- Added NPM version tracker
-- Updated all packages to the latest version
-- Now using TypeScript 3.0.1
-- Updated tslint.json for TS 3.0.1
-- Fixed large number of linting issues
-- Changed the tsconfig.json to the one used in the typescript-library-starter (https://github.com/alexjoverm/typescript-library-starter/blob/master/tsconfig.json)
+- Support for OData 'Count' keyword
+- Support date input
 
 ### Removed
 - Api documentation removed from this README and into the code. 
