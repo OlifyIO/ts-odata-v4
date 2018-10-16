@@ -1,14 +1,14 @@
 {
-  "version": "0.3.1",
-  "name": "ts-odata",
+  "version": "0.1.0",
+  "name": "ts-odata-v4",
   "description": "A typescript library to help generate odata queries",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/TrekkingForCharity/ts-odata.git"
+    "url": "https://github.com/martinadam511/ts-odata-v4.git"
   },
-  "bugs": "https://github.com/TrekkingForCharity/ts-odata/issues",
-  "homepage": "https://github.com/TrekkingForCharity/ts-odata",
+  "bugs": "https://github.com/martinadam511/ts-odata-v4/issues",
+  "homepage": "https://github.com/martinadam511/ts-odata-v4",
   "author": "Trekking for Charity",
   "contributors": [
     "Andrew Davis"
