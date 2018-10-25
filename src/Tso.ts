@@ -1,17 +1,18 @@
-import {FilterClause} from './FilterClause';
-import {PrecedenceGroup} from './PrecedenceGroup';
-import {FilterObj} from './FilterObj';
-import {OrderBySettings} from './Settings/OrderBySettings';
-import {TopSettings} from './Settings/TopSettings';
-import {SkipSettings} from './Settings/SkipSettings';
-import {SelectSettings} from './Settings/SelectSettings';
-import {ExpandSettings} from './Settings/ExpandSettings';
-import {FormatSettings} from './Settings/FormatSettings';
-import {InlineCountSettings} from './Settings/InlineCountSettings';
-import {FilterSettings} from './Settings/FilterSettings';
-import {IFormatOptions} from './Options/IFormatOptions';
-import {IInlineCountOptions} from './Options/IInlineCountOptions';
+import { FilterClause } from './FilterClause';
+import { FilterObj } from './FilterObj';
+import { IFormatOptions } from './Options/IFormatOptions';
+import { IInlineCountOptions } from './Options/IInlineCountOptions';
+import { PrecedenceGroup } from './PrecedenceGroup';
 import { CountSettings } from './Settings/CountSettings';
+import { ExpandSettings } from './Settings/ExpandSettings';
+import { FilterSettings } from './Settings/FilterSettings';
+import { FormatSettings } from './Settings/FormatSettings';
+import { InlineCountSettings } from './Settings/InlineCountSettings';
+import { OrderBySettings } from './Settings/OrderBySettings';
+import { SearchSettings } from './Settings/SearchSettings';
+import { SelectSettings } from './Settings/SelectSettings';
+import { SkipSettings } from './Settings/SkipSettings';
+import { TopSettings } from './Settings/TopSettings';
 
 export class Tso {
 
@@ -25,10 +26,11 @@ export class Tso {
     SkipSettings: SkipSettings;
     TopSettings: TopSettings;
     CountSettings: CountSettings;
+    SearchSettings: SearchSettings;
     format: IFormatOptions;
     formatDefault: IFormatOptions;
     inlineCount: IInlineCountOptions;
-    inlineCountDefault: IInlineCountOptions;    
+    inlineCountDefault: IInlineCountOptions;
 
     currentHashRoute: string | null = null;
 
@@ -81,6 +83,7 @@ export class Tso {
         this.SkipSettings = new SkipSettings();
         this.TopSettings = new TopSettings();
         this.CountSettings = new CountSettings();
+        this.SearchSettings = new SearchSettings();
 
         let contextThis = this;
 
@@ -484,6 +487,17 @@ export class Tso {
         return this;
     }
 
+    // count
+    resetSearch(): Tso {
+        this.SearchSettings.reset();
+        return this;
+    }
+
+    search(searchExpression: string): Tso {
+        this.SearchSettings.search = searchExpression;
+        return this;
+    }
+
     // Inline count
     resetInlineCount(): Tso {
         this.InlineCountSettings.reset();
@@ -600,6 +614,10 @@ export class Tso {
             components.push(this.CountSettings.toString());
         }
 
+        if (this.SearchSettings.isSet()) {
+            components.push(this.SearchSettings.toString());
+        }
+
         return components.length > 0 ? url + '?' + components.join('&') : url;
     }
 
@@ -617,6 +635,7 @@ export class Tso {
         jsonObj.FormatSettings = null;
         jsonObj.InlineCountSettings = null;
         jsonObj.CountSettings = null;
+        jsonObj.SearchSettings = null;
         jsonObj.FilterSettings = null;
 
         jsonObj.defaults = (<any>this).defaults;
@@ -651,6 +670,10 @@ export class Tso {
 
         if (this.CountSettings.isSet()) {
             jsonObj.CountSettings = this.CountSettings;
+        }
+
+        if (this.SearchSettings.isSet()) {
+            jsonObj.SearchSettings = this.SearchSettings;
         }
 
         if (this.FilterSettings.isSet()) {

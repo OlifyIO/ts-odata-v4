@@ -1,10 +1,9 @@
 export class CountSettings {
-  countExists: boolean;  
+  countExists: boolean;
 
   constructor() {
-      this.countExists = false;      
+      this.countExists = false;
   }
-
 
   toString(): string {
       return '$count=true';

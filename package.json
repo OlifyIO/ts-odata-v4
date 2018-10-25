@@ -5,13 +5,14 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/martinadam511/ts-odata-v4.git"
+    "url": "https://github.com/OlifyIO/ts-odata-v4.git"
   },
-  "bugs": "https://github.com/martinadam511/ts-odata-v4/issues",
-  "homepage": "https://github.com/martinadam511/ts-odata-v4",
+  "bugs": "https://github.com/OlifyIO/ts-odata-v4/issues",
+  "homepage": "https://github.com/OlifyIO/ts-odata-v4",
   "author": "Trekking for Charity",
   "contributors": [
-    "Andrew Davis"
+    "Andrew Davis",
+    "OlifyIO"
   ],
   "keywords": [
     "jodata",
