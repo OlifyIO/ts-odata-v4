@@ -11,11 +11,17 @@ ts-odata-v4 is forked [ts-odata project](https://www.npmjs.com/package/ts-odata)
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.x.0] - 2018-?-?
+## [0.1.2] - 2018-10-25
+### Added
+- Support for $search
+
+## [0.1.1] - 2018-10-20
+### Added
+- Support date input
+
+## [0.1.0] - 2018-10-16
 ### Added
 - Support for OData 'Count' keyword
-- Support date input
-- Support for $search
 
 ---
 
