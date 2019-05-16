@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.1.3",
   "name": "ts-odata-v4",
   "description": "A typescript library to help generate odata queries",
   "license": "MIT",
@@ -27,8 +27,7 @@
     "test": "npm run build && mocha --compilers ts:ts-node/register --recursive test/**/*-spec.ts",
     "watch": "npm run build -- --watch",
     "watch:test": "npm run test -- --watch",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
-    "postinstall": "tsc"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "dependencies": {},
   "devDependencies": {
