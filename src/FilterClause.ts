@@ -1,5 +1,6 @@
 import {Helpers} from './Helpers';
 import {Concat} from './Concat';
+import { PrecedenceGroup } from './PrecedenceGroup';
 export class FilterClause {
 
     components: string[];
@@ -38,7 +39,7 @@ export class FilterClause {
     isEmpty(): Boolean {
         return this.isClauseEmpty || (this.propertyIncluded && this.usingNot);
     }
-
+    
     // Logical operators
     eq(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'eq', this);
@@ -257,5 +258,19 @@ export class FilterClause {
 
     ceiling(): FilterClause {
         return Helpers.addMethodWrapper(this, 'ceiling');
+    }
+
+    addPropertyPath(propertyPath: string) {
+        this.property = propertyPath + '/' + this.property;        
+    }
+
+    any(filterClause: FilterClause | PrecedenceGroup): FilterClause {
+        this.propertyIncluded = true;
+        this.funcReturnType = Boolean();        
+
+        filterClause.addPropertyPath('x')
+        this.components.push(this.property + '/any(x:' + filterClause.toString() + ')');
+
+        return this;
     }
 }

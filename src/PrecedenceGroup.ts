@@ -31,4 +31,7 @@ export class PrecedenceGroup {
 
         return filter;
     }
+    addPropertyPath(propertyPath: string) {
+        this.clauses.map(x => x.addPropertyPath(propertyPath));            
+    }
 }
