@@ -1,6 +1,6 @@
 {
-  "version": "0.1.3",
-  "name": "ts-odata-v4",
+  "version": "0.1.4",
+  "name": "@olifyio/ts-odata-v4",
   "description": "A typescript library to help generate odata queries",
   "license": "MIT",
   "repository": {
