@@ -1,5 +1,9 @@
 export class Helpers {
     public static formatValue (value: any): any {
+        if (value === null) {
+            return 'null';
+        }
+
         if (value instanceof Date) {
             return value.toISOString();
         }
