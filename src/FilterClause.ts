@@ -39,7 +39,7 @@ export class FilterClause {
     isEmpty(): Boolean {
         return this.isClauseEmpty || (this.propertyIncluded && this.usingNot);
     }
-    
+
     // Logical operators
     eq(value: string|number|boolean|Date): FilterClause {
         return Helpers.addLogicalOperator(value, 'eq', this);
@@ -261,14 +261,14 @@ export class FilterClause {
     }
 
     addPropertyPath(propertyPath: string) {
-        this.property = propertyPath + '/' + this.property;        
+        this.property = propertyPath + '/' + this.property;
     }
 
     any(filterClause: FilterClause | PrecedenceGroup): FilterClause {
         this.propertyIncluded = true;
-        this.funcReturnType = Boolean();        
+        this.funcReturnType = Boolean();
 
-        filterClause.addPropertyPath('x')
+        filterClause.addPropertyPath('x');
         this.components.push(this.property + '/any(x:' + filterClause.toString() + ')');
 
         return this;
