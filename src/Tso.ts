@@ -8,7 +8,7 @@ import { ExpandSettings } from './Settings/ExpandSettings';
 import { FilterSettings } from './Settings/FilterSettings';
 import { FormatSettings } from './Settings/FormatSettings';
 import { InlineCountSettings } from './Settings/InlineCountSettings';
-import { OrderBySettings } from './Settings/OrderBySettings';
+import { OrderBySettings, OrderByDirection, OrderByClause } from './Settings/OrderBySettings';
 import { SearchSettings } from './Settings/SearchSettings';
 import { SelectSettings } from './Settings/SelectSettings';
 import { SkipSettings } from './Settings/SkipSettings';
@@ -47,7 +47,7 @@ export class Tso {
     }
 
     static v4guid(guid: string): string {
-      return 'v4guid' + guid;
+        return 'v4guid' + guid;
     }
 
     static decimal(decimal: number): string {
@@ -90,59 +90,59 @@ export class Tso {
         this.format = {
 
             atom: function () {
-              contextThis.FormatSettings.format = 'atom';
+                contextThis.FormatSettings.format = 'atom';
                 return contextThis;
             },
             custom: function (value) {
-              contextThis.FormatSettings.format = value;
+                contextThis.FormatSettings.format = value;
                 return contextThis;
             },
             xml: function () {
-              contextThis.FormatSettings.format = 'xml';
+                contextThis.FormatSettings.format = 'xml';
                 return contextThis;
             },
             json: function () {
-              contextThis.FormatSettings.format = 'json';
+                contextThis.FormatSettings.format = 'json';
                 return contextThis;
             }
         };
         this.formatDefault = {
             atom: function () {
-              contextThis.FormatSettings.defaultFormat = 'atom';
+                contextThis.FormatSettings.defaultFormat = 'atom';
                 return contextThis;
             },
             custom: function (value) {
-              contextThis.FormatSettings.defaultFormat = value;
+                contextThis.FormatSettings.defaultFormat = value;
                 return contextThis;
             },
             xml: function () {
-              contextThis.FormatSettings.defaultFormat = 'xml';
+                contextThis.FormatSettings.defaultFormat = 'xml';
                 return contextThis;
             },
             json: function () {
-              contextThis.FormatSettings.defaultFormat = 'json';
+                contextThis.FormatSettings.defaultFormat = 'json';
                 return contextThis;
             }
         };
 
         this.inlineCount = {
             allPages: function () {
-              contextThis.InlineCountSettings.inlineCount = 'allpages';
+                contextThis.InlineCountSettings.inlineCount = 'allpages';
                 return contextThis;
             },
             none: function () {
-              contextThis.InlineCountSettings.inlineCount = 'none';
+                contextThis.InlineCountSettings.inlineCount = 'none';
                 return contextThis;
             }
         };
 
         this.inlineCountDefault = {
             allPages: function () {
-              contextThis.InlineCountSettings.defaultInlineCount = 'allpages';
+                contextThis.InlineCountSettings.defaultInlineCount = 'allpages';
                 return contextThis;
             },
             none: function () {
-              contextThis.InlineCountSettings.defaultInlineCount = 'none';
+                contextThis.InlineCountSettings.defaultInlineCount = 'none';
                 return contextThis;
             }
         };
@@ -168,34 +168,37 @@ export class Tso {
      * @returns {Tso}
      * @memberof Tso
      */
-    setOrderByDefault(property: string, order?: string): Tso {
-        this.OrderBySettings.defaultProperty = property;
-        this.OrderBySettings.defaultOrder = order === undefined ? 'desc' : order;
+    setOrderByDefault(property: string, order?: OrderByDirection): Tso {
+        this.OrderBySettings.defaultProperty = {
+            property,
+            order
+        };
         return this;
     }
 
     /**
      * Toggles the order by value on a given property between desc and asc.
-     * If the orderby property has not been set yet, it will default to desc.
+     * If the orderby property has not been set yet, it will default to asc.
      *
      * @param {string} property
-     * @param {Function} [callback]
      * @returns {Tso}
      * @memberof Tso
      */
-    toggleOrderBy(property: string, callback?: Function): Tso {
-        let useDesc = (this.OrderBySettings.property === null || this.OrderBySettings.order === 'asc');
-        (<any>this.orderBy(property))[useDesc ? 'desc' : 'asc']();
-
-        if (callback && typeof callback === 'function') {
-            (<any>callback).call(this);
+    toggleOrderBy(property: string): Tso {
+        let clause: OrderByClause | undefined = this.OrderBySettings.properties.find(x => x.property === property);
+        if (clause) {
+            clause.order = !clause.order || clause.order === OrderByDirection.Asc ? OrderByDirection.Desc : OrderByDirection.Asc;
+        } else {
+            clause = {
+                property,
+                order: OrderByDirection.Asc
+            };
+            this.OrderBySettings.properties.push(clause);
         }
-
         return this;
     }
 
     /**
-     * Order by is a singleton property, so you can call .orderBy as many times as you like and the result will always be the last one.
      *
      * @example
      * $orderby=PropertyName
@@ -205,7 +208,10 @@ export class Tso {
      * @memberof Tso
      */
     orderBy(property: string): Tso {
-        this.OrderBySettings.property = property;
+        this.OrderBySettings.properties.push({
+            property,
+            order: undefined
+        });
         return this;
     }
 
@@ -226,7 +232,9 @@ export class Tso {
      * @memberof Tso
      */
     desc(): Tso {
-        this.OrderBySettings.order = 'desc';
+        if (this.OrderBySettings.properties.length) {
+            this.OrderBySettings.properties[this.OrderBySettings.properties.length - 1].order = OrderByDirection.Desc;
+        }
         return this;
     }
 
@@ -247,7 +255,9 @@ export class Tso {
      * @memberof Tso
      */
     asc(): Tso {
-        this.OrderBySettings.order = 'asc';
+        if (this.OrderBySettings.properties.length) {
+            this.OrderBySettings.properties[this.OrderBySettings.properties.length - 1].order = OrderByDirection.Asc;
+        }
         return this;
     }
 
@@ -505,17 +515,17 @@ export class Tso {
     }
 
     // Filter
-    filter(filterClause: FilterClause|PrecedenceGroup): Tso {
+    filter(filterClause: FilterClause | PrecedenceGroup): Tso {
         this.FilterSettings.Filters.push(new FilterObj(filterClause));
         return this;
     }
 
-    andFilter(filterClause: FilterClause|PrecedenceGroup): Tso {
+    andFilter(filterClause: FilterClause | PrecedenceGroup): Tso {
         this.FilterSettings.Filters.push(new FilterObj(filterClause, 'and'));
         return this;
     }
 
-    orFilter(filterClause: FilterClause|PrecedenceGroup): Tso {
+    orFilter(filterClause: FilterClause | PrecedenceGroup): Tso {
         this.FilterSettings.Filters.push(new FilterObj(filterClause, 'or'));
         return this;
     }

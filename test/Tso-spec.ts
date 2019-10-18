@@ -5,6 +5,7 @@ import { FilterClause } from '../src/FilterClause';
 import { PrecedenceGroup } from '../src/PrecedenceGroup';
 import { Concat } from '../src/Concat';
 import * as chai from 'chai';
+import { OrderByDirection } from '../src/Settings/OrderBySettings';
 
 const expect = chai.expect;
 
@@ -41,10 +42,10 @@ describe('tsdata', () => {
     it('toggles between orders', function() {
       const j = new Tso('http://foo.bar');
       j.toggleOrderBy('baz');
-      expect(j.toString()).to.equal('http://foo.bar?$orderby=baz%20desc');
+      expect(j.toString()).to.equal('http://foo.bar?$orderby=baz%20asc');
 
       j.toggleOrderBy('baz');
-      expect(j.toString()).to.equal('http://foo.bar?$orderby=baz%20asc');
+      expect(j.toString()).to.equal('http://foo.bar?$orderby=baz%20desc');
     });
 
     describe('resets to default', function() {
@@ -59,13 +60,13 @@ describe('tsdata', () => {
 
         j.resetOrderBy();
         expect(j.toString()).to.equal(
-          'http://foo.bar?$orderby=CustomerName%20desc'
+          'http://foo.bar?$orderby=CustomerName'
         );
       });
 
       it('with default order', function() {
         const j = new Tso('http://foo.bar');
-        j.setOrderByDefault('CustomerName', 'asc');
+        j.setOrderByDefault('CustomerName', OrderByDirection.Asc);
 
         j.orderBy('OtherValue').desc();
         expect(j.toString()).to.equal(
@@ -91,11 +92,11 @@ describe('tsdata', () => {
         expect(j.toString()).to.equal('http://foo.bar?$orderby=baz%20asc');
       });
 
-      it('only keeps the latest of property names', function() {
+      it('chains multiple clauses', function() {
         const j = new Tso('http://foo.bar');
         j.orderBy('baz').orderBy('two');
 
-        expect(j.toString()).to.equal('http://foo.bar?$orderby=two');
+        expect(j.toString()).to.equal('http://foo.bar?$orderby=baz,two');
       });
     });
   });
